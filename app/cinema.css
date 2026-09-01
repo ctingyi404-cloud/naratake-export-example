@@ -1,0 +1,228 @@
+/* Cinema components — responsive + device-perf layer.
+   Inline styles carry the scroll-driven dynamics (--p ramps); everything
+   layout-static lives here so phones AND tablets get their own treatment.
+   Breakpoints: ≤760 phone, ≤1024 tablet (the 3D showpieces are desktop-only). */
+
+/* ── TimelineFlow river ── */
+.cin-tl-card { width: min(46%, 460px); }
+.cin-tl-right { margin-left: auto; }
+.cin-tl-row { margin-bottom: 56px; }
+/* the river svg carries `rv` only to earn an is-in trigger for its draw — it
+   must never fade or translate like a normal reveal, just draw itself in */
+.cin-tl-river.rv { opacity: 1 !important; transform: none !important; }
+@media (max-width: 860px) {
+  /* the river is a wide-canvas idea — below this it stacks into a clean column */
+  .cin-tl-river, .cin-tl-dot, .cin-tl-branch { display: none; }
+  .cin-tl-card { width: 100%; transform: none !important; }
+  .cin-tl-right { margin-left: 0; }
+  .cin-tl-row { margin-bottom: 20px; min-height: 0 !important; }
+}
+
+/* ── MenuPalace ──
+   Phones AND tablets walk a FLAT palace (no 3D perspective, no pin, no
+   backdrop-filter) — the 3D corridor is a desktop-only showpiece and is heavy /
+   fragile on touch devices. */
+.cin-mp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cin-mp-flat { display: none; }
+/* A large menu (>4 dishes in any chamber) can't live in the 3D corridor — it
+   flattens to the readable full list at every width, showing every dish. */
+.cin-mp-big { height: auto !important; }
+/* 攤平後深色舞台不得殘留:淺底頁上會漏出一條黑帶+氛圍綠暈(food-truck
+   mid2,目檢抓到)。三條攤平路徑(big/行動版/no-motion)同規。 */
+.cin-mp-big .mo-pin { position: static; height: auto; overflow: visible; display: block; background: none !important; color: inherit !important; }
+.cin-mp-big .cin-mp-3d, .cin-mp-big .cin-mp-hud, .cin-mp-big .cin-mp-floor, .cin-mp-big .cin-mp-atmo { display: none !important; }
+.cin-mp-big .cin-mp-flat { display: block; }
+@media (max-width: 1024px) {
+  .cin-mp { height: auto !important; }
+  .cin-mp .mo-pin { position: static; height: auto; overflow: visible; display: block; background: none !important; color: inherit !important; }
+  .cin-mp-3d, .cin-mp-hud, .cin-mp-floor, .cin-mp-atmo { display: none !important; }
+  .cin-mp-flat { display: block; }
+  .cin-mp-item { transform: none !important; backdrop-filter: none !important; }
+}
+@media (max-width: 620px) {
+  .cin-mp-grid { grid-template-columns: 1fr; }
+}
+
+/* ── FocalShot — gentler camera on phones/tablets (a 3.1× crop of small art
+     reads as mush; scale down the move so the subject stays legible) ── */
+.cin-fs-subject { width: min(44vw, 520px); }
+@media (max-width: 1024px) {
+  .cin-fs-subject { width: 68vw; transform: scale(calc(1.9 - var(--pe, 0) * 0.9)) !important; }
+  /* same scaleY retract as desktop, smaller slab: 7.5% → 1.5% visible */
+  .cin-fs-bar { height: 7.5% !important; transform: scaleY(calc(1 - var(--pe, 0) * 0.8)) !important; }
+}
+
+/* ============================================================
+   SCRUB STATIC FALLBACK
+   Pinned scroll-scrub layouts collapse to normal, fully-visible
+   document flow in two cases:
+     (a) html.no-motion — the runtime can't drive --p (reduced-motion
+         or theme motion:'off'); JS also settles --p/--pe = 1.
+     (b) touch devices ≤1024 — a 100vh pin is heavy and the
+         walk-through gestures don't map on a phone/tablet.
+   Everything below is layout-static; the scroll dynamics stay inline.
+   ============================================================ */
+
+/* ---- (a) reduced-motion / motion off (html.no-motion) ---- */
+.no-motion .mo-pin { position: static; height: auto; overflow: visible; display: block; }
+.no-motion .cin-ss, .no-motion .cin-hs, .no-motion .cin-fs, .no-motion .cin-vs { height: auto !important; }
+.no-motion .cin-ss-beat { position: static !important; opacity: 1 !important; transform: none !important; padding: 40px 6vw !important; }
+.no-motion .cin-hs-track { transform: none !important; flex-wrap: wrap; justify-content: center; width: auto !important; }
+.no-motion .cin-fs { height: 82vh !important; }
+.no-motion .cin-fs .mo-pin { position: static !important; height: 100% !important; overflow: hidden; }
+/* 靜止時主體滿幅:44vw 的直幅主體釘在 82vh 黑幕正中,兩側是大片純黑
+   pillarbox(chinese-restaurant 的 CLOSE-UP · THE WOK,第六輪長條圖抓到)。
+   運鏡不動就沒有「拉遠」可言 —— 讓照片鋪滿幕、由外層 overflow 置中裁切,
+   整條讀作 WideShot 式的定場鏡頭,場記與陳述句壓在照片上。 */
+.no-motion .cin-fs-subject { width: 100%; transform: scale(1.05) !important; }
+.no-motion .cin-fs-bar { height: 2% !important; transform: none !important; }
+.no-motion .cin-fs-ride { transform: none !important; }
+.no-motion .cin-fs-slug { top: calc(2% + 26px) !important; opacity: 1 !important; }
+.no-motion .cin-fs-copy { opacity: 1 !important; transform: none !important; bottom: calc(2% + 5vh) !important; }
+.no-motion .cin-vs { height: 66vh !important; }
+.no-motion .cin-vs .mo-pin { position: static !important; height: 100% !important; }
+.no-motion .cin-mp { height: auto !important; }
+.no-motion .cin-mp .mo-pin { position: static; height: auto; overflow: visible; display: block; background: none !important; color: inherit !important; }
+.no-motion .cin-mp-3d, .no-motion .cin-mp-hud, .no-motion .cin-mp-floor, .no-motion .cin-mp-atmo { display: none !important; }
+.no-motion .cin-mp-flat { display: block; }
+
+/* ---- (b) touch devices ≤1024 (motion still on, but pins are heavy) ---- */
+@media (max-width: 1024px) {
+  .cin-ss, .cin-hs, .cin-fs, .cin-vs { height: auto !important; }
+  .cin-ss .mo-pin, .cin-hs .mo-pin { position: static; height: auto; overflow: visible; display: block; }
+  .cin-ss-beat { position: static !important; opacity: 1 !important; transform: none !important; padding: 30px 6vw !important; }
+  .cin-hs-track { transform: none !important; flex-wrap: wrap; justify-content: center; width: auto !important; }
+  .cin-fs { height: 80vh !important; }
+  .cin-fs .mo-pin { position: static !important; height: 100% !important; overflow: hidden; }
+  /* 同 no-motion:攤平的幕沒有運鏡,68vw 主體在黑幕上一樣是 pillarbox */
+  .cin-fs-subject { width: 100% !important; transform: scale(1.05) !important; }
+  .cin-fs-bar { height: 2% !important; transform: none !important; }
+  /* flat mode = the preview's 2% geometry with the ±11% movers off */
+  .cin-fs-ride { transform: none !important; }
+  .cin-fs-slug { top: calc(2% + 26px) !important; opacity: 1 !important; }
+  .cin-fs-copy { opacity: 1 !important; transform: none !important; bottom: calc(2% + 5vh) !important; }
+  .cin-vs { height: 62vh !important; }
+  .cin-vs .mo-pin { position: static !important; height: 100% !important; }
+}
+
+/* ---- RevealImage: on touch (below the fold, never scrolls through its
+     reveal band) and reduced-motion, show the photo fully — the curtain/wipe
+     clip would otherwise leave a thin center strip or nothing ---- */
+.no-motion .cin-ri-frame { clip-path: none !important; }
+.no-motion .cin-ri img { transform: none !important; }
+@media (max-width: 1024px) {
+  .cin-ri-frame { clip-path: none !important; }
+  .cin-ri img { transform: none !important; }
+}
+
+/* ---- Gallery / grids: fewer columns on small screens (a fixed inline
+     repeat(3,1fr) is 3-across even on a 375px phone) ---- */
+@media (min-width: 621px) and (max-width: 1024px) {
+  .cin-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 620px) {
+  .cin-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ---- KineticHeading: never overflow a phone frame (CJK / long words) ---- */
+.cin-kh { overflow-wrap: break-word; word-break: break-word; }
+@media (max-width: 620px) {
+  .cin-kh { font-size: clamp(1.5rem, 6.2vw, 2.05rem) !important; }
+}
+.cin-kh .mo-unit { white-space: normal; }
+
+/* ═══ Cinema v5 — Signature Sequences ═══════════════════════════════ */
+
+/* PullQuote: the hanging mark drifts up a touch as the quote reveals */
+.js-motion .pq-mark { transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s; transform: translateY(10px) scale(0.94); }
+.js-motion .rv.is-in .pq-mark { transform: translateY(0) scale(1); }
+
+/* Diptych: two panels meet at the seam; stack + drop the seam border on phones */
+@media (max-width: 640px) {
+  .dpx { grid-template-columns: 1fr !important; }
+  .dpx .dpx-panel { border-left: none !important; }
+  .dpx .dpx-panel:not(.dpx-fill) { border-top: 1px solid var(--c-border); }
+}
+
+/* Spotlight: the beam breathes slowly (ambient, never distracting) */
+@keyframes sp-breathe { 0%, 100% { opacity: 0.34; transform: scale(1); } 50% { opacity: 0.52; transform: scale(1.06); } }
+.js-motion .sp-glow { animation: sp-breathe 7s ease-in-out infinite; will-change: opacity, transform; }
+
+/* Countdown: each value flips over as it changes; cells shrink on phones */
+@keyframes cd-flip { from { transform: rotateX(-88deg); opacity: 0; } to { transform: rotateX(0); opacity: 1; } }
+.cd-num { display: inline-block; }
+.js-motion .cd-flip { animation: cd-flip 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: center top; }
+@media (max-width: 620px) {
+  .cd-row { gap: 8px !important; }
+  .cd-cell { min-width: 64px !important; padding: 14px 8px !important; }
+  .cd-cell .cd-num { font-size: 26px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-motion .pq-mark { transition: none; transform: none; }
+  .js-motion .sp-glow { animation: none; opacity: 0.42; }
+  .js-motion .cd-flip { animation: none; }
+}
+
+/* ═══ Cinema v7 — Photo Cinema ══════════════════════════════════════ */
+
+/* FilmStrip: fixed frame widths (the def mirrors these via ctx.bp) and a
+   gentle darkroom-loupe zoom on hover — desktop pointer only */
+.cin-fstrip-frame { width: 258px; }
+.cin-fstrip-frame img { height: 186px; }
+@media (max-width: 620px) {
+  .cin-fstrip-frame { width: 208px; }
+  .cin-fstrip-frame img { height: 150px; }
+}
+@media (hover: hover) {
+  .js-motion .cin-fstrip-frame img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+  .js-motion .cin-fstrip-frame:hover img { transform: scale(1.04); }
+}
+/* the strip scrolls sideways like pulling film through a viewer */
+.cin-fstrip-row { -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+
+/* ComicPanels: wide shot on top, two cuts below; single column on phones */
+.cin-comic-grid { grid-template-columns: 1.2fr 1fr; }
+.cin-comic-grid .cin-comic-panel:first-child { grid-column: 1 / -1; }
+.cin-comic-grid .cin-comic-panel img { height: 200px; }
+.cin-comic-grid .cin-comic-panel:first-child img { height: 270px; }
+@media (max-width: 640px) {
+  .cin-comic-grid { grid-template-columns: 1fr; }
+  .cin-comic-grid .cin-comic-panel img { height: 170px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-motion .cin-fstrip-frame img { transition: none; transform: none !important; }
+}
+
+/* Collage: polaroid sizing + a playful straighten on hover (pointer only) */
+.cin-collage { gap: 26px; }
+.cin-collage-card { width: 250px; }
+.cin-collage-card img { height: 184px; }
+@media (max-width: 620px) {
+  .cin-collage { gap: 18px; }
+  .cin-collage-card { width: 200px; }
+  .cin-collage-card img { height: 148px; }
+}
+@media (hover: hover) {
+  .js-motion .cin-collage-card { transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+  .js-motion .cin-collage-card:hover { transform: rotate(0deg) scale(1.03) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js-motion .cin-collage-card { transition: none; }
+}
+
+/* RoundBadge: the ring turns slowly, like a sticker catching your eye */
+@keyframes rbadge-spin { to { transform: rotate(360deg); } }
+.js-motion .cin-rbadge svg { animation: rbadge-spin 18s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .js-motion .cin-rbadge svg { animation: none; }
+}
+
+/* Timeline tributaries: each grows OUT of its node (clip sweep toward the
+   card), riding .rv's is-in trigger; opacity/slide are neutralized so only
+   the sweep shows. Reduced-motion clears clip-path globally (always visible). */
+.js-motion .cin-tl-branch { opacity: 1 !important; transform: none !important; }
+.js-motion .cin-tl-branch.cin-tl-b-r { clip-path: inset(-4px 100% -4px -4px); }
+.js-motion .cin-tl-branch.cin-tl-b-l { clip-path: inset(-4px -4px -4px 100%); }
+.js-motion .cin-tl-branch.is-in { clip-path: inset(-4px -4px -4px -4px); }

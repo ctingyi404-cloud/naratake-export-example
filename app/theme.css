@@ -1,0 +1,113 @@
+/* Generated from your LocalSite Studio theme. */
+@font-face { font-family: 'LS Latin Punct'; src: local('Georgia'), local('Times New Roman'), local('Noto Serif'); unicode-range: U+2018-2019; }
+:root {
+  --c-primary: #8a5a2b;
+  --c-primary-fg: #ffffff;
+  --c-secondary: #33261a;
+  --c-accent: #d9909c;
+  /* accent has no authored companion the way primary has primaryFg — derive it,
+     so a chip filled with accent can never print unreadable text on itself */
+  --c-accent-fg: #000000;
+  --c-bg: #faf5ee;
+  --c-surface: #fffdf9;
+  --c-text: #2f261c;
+  --c-text-muted: #7a6d5e;
+  --c-border: #ecdfcd;
+
+  /* Decoration ink for background effects, derived from the PAGE ground. A
+     section with its own dark band or photo scrim overrides these (emit.ts). */
+  --fx-ink: 0 0 0;
+  --fx-strength: 1.31;
+
+  /* announcement banner: secondary band, auto-contrast ink (YIQ-picked) */
+  --c-banner: #33261a;
+  --c-banner-fg: #ffffff;
+
+  /* gradient + glow tokens for the modern design system */
+  --g1: #8a5a2b;
+  --g2: color-mix(in srgb, #8a5a2b 45%, #d9909c);
+  --glow: color-mix(in srgb, #8a5a2b 18%, transparent);
+
+  --f-head: 'Cormorant Garamond', 'Noto Serif TC', 'PingFang TC', 'Microsoft JhengHei', Georgia, serif;
+  --f-body: 'Work Sans', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  --font-heading: var(--f-head);
+  --font-body: var(--f-body);
+
+  /* A 2px floor used to make "no radius" inexpressible, so an editorial voice
+     could never lose its card corners. Zero is a design position, not an absence. */
+  --r-sm: 5px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  /* CTA geometry follows the theme's radius voice (mirrored in btnStyle) */
+  --r-btn: 16px;
+
+  /* elevation: the card shadow used to be hard-coded in globals.css where no
+     theme could reach it, so "this brand uses no shadows" could not be said */
+  --e-card: 0 1px 2px rgba(0,0,0,0.04), 0 10px 30px -18px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+  --e-btn: 0 1px 2px rgba(0,0,0,0.06), 0 8px 20px -14px rgba(0,0,0,0.35);
+
+  /* type scale (TYPE_VOICES in schema — the preview defs read the same table) */
+  --t-display: 44px;
+  --t-display-lh: 1.1;
+  --t-display-tr: -0.01em;
+  --t-display-w: 700;
+  --t-display-f: var(--f-head);
+  --t-hero: 30px;
+  --t-hero-lh: 1.15;
+  --t-hero-tr: -0.01em;
+  --t-hero-w: 700;
+  --t-hero-f: var(--f-head);
+  --t-title: 22px;
+  --t-title-lh: 1.25;
+  --t-title-tr: 0em;
+  --t-title-w: 700;
+  --t-title-f: var(--f-head);
+  --t-heading: 18px;
+  --t-heading-lh: 1.3;
+  --t-heading-tr: 0em;
+  --t-heading-w: 700;
+  --t-heading-f: var(--f-head);
+  --t-body: 16px;
+  --t-body-lh: 1.7;
+  --t-body-tr: 0em;
+  --t-body-w: 400;
+  --t-body-f: var(--f-body);
+  --t-small: 13.5px;
+  --t-small-lh: 1.6;
+  --t-small-tr: 0em;
+  --t-small-w: 400;
+  --t-small-f: var(--f-body);
+  --t-micro: 11.5px;
+  --t-micro-lh: 1.45;
+  --t-micro-tr: 0.09em;
+  --t-micro-w: 700;
+  --t-micro-f: var(--f-body);
+
+  /* photo grade: one atmosphere for the merchant's mixed real photos
+     (PHOTO_GRADES in schema — the preview defs read the same table) */
+  --photo-sat: 1;
+  --photo-con: 1;
+  --photo-bri: 1;
+  --photo-sep: 0;
+  --photo-hue: 0deg;
+}
+
+/* A CJK line is denser than a Latin one and needs air; uppercase labels
+   need more tracking still, and negative tracking jams the characters. */
+html[lang^="zh"] {
+  --t-display-lh: 1.35;
+  --t-display-tr: 0em;
+  --t-hero-lh: 1.4;
+  --t-hero-tr: 0em;
+  --t-title-lh: 1.5;
+  --t-title-tr: 0em;
+  --t-heading-lh: 1.55;
+  --t-heading-tr: 0em;
+  --t-body-lh: 1.95;
+  --t-body-tr: 0em;
+  --t-small-lh: 1.85;
+  --t-small-tr: 0em;
+  --t-micro-lh: 1.7;
+  --t-micro-tr: 0.19em;
+}
+

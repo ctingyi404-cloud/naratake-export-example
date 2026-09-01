@@ -1,0 +1,235 @@
+{
+  "business": {
+    "name": "Sunrise Bakery",
+    "phone": "(555) 010-4477",
+    "email": "hello@example.com",
+    "address": {
+      "line1": "123 Main St",
+      "city": "Austin",
+      "state": "TX",
+      "zip": "78701"
+    },
+    "timezone": "America/Chicago",
+    "currency": "usd",
+    "taxRateBp": 825,
+    "hours": {
+      "mon": null,
+      "tue": [
+        [
+          "07:00",
+          "14:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "14:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "14:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "15:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "13:00"
+        ]
+      ]
+    },
+    "locales": {
+      "default": "en"
+    },
+    "pos": {
+      "terminals": 1
+    }
+  },
+  "adminEmail": "owner@example.com",
+  "seed": {
+    "categories": [
+      {
+        "name": "Breads",
+        "type": "PRODUCT",
+        "items": [
+          {
+            "name": "Country Sourdough",
+            "description": "36-hour ferment, blistered crust. Baked at 7am.",
+            "priceCents": 850,
+            "badges": [
+              "popular"
+            ],
+            "modifiers": [],
+            "imageUrl": "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=900&h=675&q=80&auto=format&fit=crop",
+            "imageKey": "dish-country-sourdough"
+          },
+          {
+            "name": "Seeded Rye",
+            "description": "Caraway and toasted seeds, dense and fragrant.",
+            "priceCents": 900,
+            "badges": [],
+            "modifiers": [],
+            "imageUrl": "https://images.unsplash.com/photo-1534620808146-d33bb39128b2?w=900&h=675&q=80&auto=format&fit=crop",
+            "imageKey": "dish-seeded-rye"
+          },
+          {
+            "name": "Rosemary Focaccia",
+            "description": "Olive-oil rich, flaky salt, whole sheet or half.",
+            "priceCents": 750,
+            "badges": [
+              "vegan"
+            ],
+            "modifiers": [
+              {
+                "name": "Size",
+                "min": 1,
+                "max": 1,
+                "options": [
+                  {
+                    "name": "Half sheet",
+                    "priceCents": 0
+                  },
+                  {
+                    "name": "Whole sheet",
+                    "priceCents": 600
+                  }
+                ]
+              }
+            ],
+            "imageUrl": "https://images.unsplash.com/photo-1593629718888-9009c55e6cad?w=900&h=675&q=80&auto=format&fit=crop",
+            "imageKey": "dish-rosemary-focaccia"
+          }
+        ]
+      },
+      {
+        "name": "Pastry Case",
+        "type": "PRODUCT",
+        "items": [
+          {
+            "name": "Almond Croissant",
+            "description": "Twice-baked, frangipane center.",
+            "priceCents": 525,
+            "badges": [
+              "popular"
+            ],
+            "modifiers": [],
+            "imageUrl": "https://images.unsplash.com/photo-1625425404751-19b16c027511?w=900&h=675&q=80&auto=format&fit=crop",
+            "imageKey": "dish-almond-croissant"
+          },
+          {
+            "name": "Morning Bun",
+            "description": "Cardamom sugar, croissant dough.",
+            "priceCents": 475,
+            "badges": [],
+            "modifiers": [],
+            "imageUrl": "https://images.unsplash.com/photo-1623334044303-241021148842?w=900&h=675&q=80&auto=format&fit=crop",
+            "imageKey": "dish-morning-bun"
+          },
+          {
+            "name": "Canelé",
+            "description": "Custard heart, caramelized shell.",
+            "priceCents": 425,
+            "badges": [],
+            "modifiers": [],
+            "imageUrl": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=900&h=675&q=80&auto=format&fit=crop",
+            "imageKey": "dish-canel"
+          },
+          {
+            "name": "Seasonal Fruit Danish",
+            "description": "Ask what the orchard sent this week.",
+            "priceCents": 495,
+            "badges": [
+              "new"
+            ],
+            "modifiers": [],
+            "imageUrl": "https://images.unsplash.com/photo-1635348965813-fa7d0dfb99d2?w=900&h=675&q=80&auto=format&fit=crop",
+            "imageKey": "dish-seasonal-fruit-danish"
+          }
+        ]
+      },
+      {
+        "name": "Whole Cakes (48h notice)",
+        "type": "PRODUCT",
+        "items": [
+          {
+            "name": "6\" Celebration Cake",
+            "description": "Vanilla chiffon, seasonal fruit, mascarpone. Feeds 8.",
+            "priceCents": 5200,
+            "badges": [],
+            "imageKey": "dish-vanilla-chiffon-cake",
+            "modifiers": [
+              {
+                "name": "Inscription",
+                "min": 0,
+                "max": 1,
+                "options": [
+                  {
+                    "name": "Add hand-piped message",
+                    "priceCents": 500
+                  }
+                ]
+              }
+            ],
+            "imageUrl": "https://images.unsplash.com/photo-1747576660180-f3b789cb0f7a?w=900&h=675&q=80&auto=format&fit=crop"
+          },
+          {
+            "name": "8\" Chocolate Torte",
+            "description": "Flourless, bittersweet, gold leaf. Feeds 12.",
+            "priceCents": 6800,
+            "badges": [
+              "gf"
+            ],
+            "imageKey": "dish-chocolate-torte",
+            "modifiers": [],
+            "imageUrl": "https://images.unsplash.com/photo-1785517607370-4fa07d35027f?w=900&h=675&q=80&auto=format&fit=crop"
+          }
+        ]
+      }
+    ],
+    "staff": [],
+    "tables": [],
+    "reviews": [
+      {
+        "author": "Priya K.",
+        "rating": 5,
+        "text": "The sourdough is worth planning your Saturday around. Order ahead, it sells out by 10."
+      },
+      {
+        "author": "Daniel R.",
+        "rating": 5,
+        "text": "Ordered a birthday cake through the quote form with a photo of what we wanted. They nailed it."
+      },
+      {
+        "author": "Meg W.",
+        "rating": 5,
+        "text": "Almond croissant supremacy. That is all."
+      }
+    ],
+    "coupons": [
+      {
+        "code": "CRUMB10",
+        "kind": "PERCENT",
+        "value": 10,
+        "minSubtotalCents": 2500,
+        "description": "10% off orders over $25"
+      }
+    ],
+    "posts": [],
+    "listings": [],
+    "classes": []
+  },
+  "collections": []
+}

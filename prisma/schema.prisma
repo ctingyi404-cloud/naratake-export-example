@@ -1,0 +1,260 @@
+// Default: SQLite (zero setup). To use Postgres, change provider to
+// "postgresql" and set DATABASE_URL accordingly, then re-run `npm run setup`.
+
+// This file is the CORE half of the schema: the connection and the models every
+// site has. Each optional module keeps its own tables in prisma/models/<id>.prisma
+// and the export concatenates base + the enabled fragments into prisma/schema.prisma,
+// so a site that never takes an order never gets an Order table. Fragments are
+// severable because no @relation ever crosses a module boundary — cross-module
+// links (Order.customerId, Payment.orderId, …) are plain scalar columns.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ── settings / auth ─────────────────────────────────────────
+
+model Business {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String
+  address   Json
+  timezone  String   @default("America/Chicago")
+  currency  String   @default("usd")
+  taxRateBp Int      @default(825)
+  hours     Json
+  delivery  Json?
+  locales   Json?
+  updatedAt DateTime @updatedAt
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("OWNER") // OWNER | MANAGER | STAFF
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+// ── inbox / misc ────────────────────────────────────────────
+
+model FormSubmission {
+  id        String   @id @default(cuid())
+  kind      String // contact | newsletter | quote | inquiry
+  name      String?
+  email     String?
+  phone     String?
+  message   String?
+  meta      Json?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model NotificationLog {
+  id        String   @id @default(cuid())
+  channel   String // EMAIL | SMS
+  recipient String
+  subject   String
+  body      String
+  status    String // SENT | MOCKED | FAILED
+  createdAt DateTime @default(now())
+}
+
+// Every back-office change, in order, forever. Written by the session
+// middleware in server/admin.ts (lib/audit.ts) and by nothing else; no code
+// path updates or deletes a row, which is what makes it a trail rather than a
+// table. Core because "who refunded that" outlives any optional module.
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String
+  actorName String
+  action    String // "<action>:<resource>", e.g. money:orders, delete:content
+  target    String // the request path that was acted on
+  // WHAT was acted on, independent of which route did the acting. A story is
+  // edited through /collections/entries/:id, moved through /desk/:id and
+  // corrected through /collections/entries/:id/notes; without this, "everything
+  // that ever happened to this story" is a scan and a set of path guesses.
+  subjectType String?
+  subjectId   String?
+  meta      Json? // redacted request payload + outcome
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([subjectType, subjectId, createdAt])
+}
+
+// small runtime key-value store (ordering pause, blackout dates, …)
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+// admin photo uploads. Stored in the database because serverless filesystems
+// are read-only — works identically on Vercel, Docker, and local sqlite.
+model MediaAsset {
+  id        String   @id @default(cuid())
+  data      Bytes
+  mime      String
+  createdAt DateTime @default(now())
+}
+
+// ── catalog ─────────────────────────────────────────────────
+
+model Category {
+  id     String @id @default(cuid())
+  name   String
+  nameZh String?
+  type   String @default("MENU") // MENU | PRODUCT | SERVICE
+  sort   Int    @default(0)
+  items  Item[]
+}
+
+model Item {
+  id            String   @id @default(cuid())
+  categoryId    String
+  category      Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name          String
+  nameZh        String?
+  description   String?
+  descriptionZh String?
+  priceCents    Int
+  imageUrl      String?
+  taxable       Boolean  @default(true)
+  available     Boolean  @default(true)
+  badges        Json
+  durationMin   Int?
+  depositCents  Int?
+  modifiers     Json // [{name,min,max,options:[{name,priceCents}]}]
+  sort          Int      @default(0)
+}
+
+// ── orders ──────────────────────────────────────────────────
+
+model Order {
+  id            String    @id @default(cuid())
+  dateKey       String
+  seq           Int
+  code          String    @unique // A-007
+  type          String // PICKUP | DELIVERY | QUOTE
+  status        String    @default("PENDING") // PENDING CONFIRMED PREPARING READY COMPLETED CANCELED AWAITING_APPROVAL
+  // soft link, deliberately not a @relation: it was the only true cross-module
+  // relation in the schema, and a Prisma relation is bidirectional — declaring
+  // it welded Order and Customer so neither module could ship without the
+  // other. No code ever used the join.
+  customerId    String?
+  contactName   String
+  contactPhone  String
+  contactEmail  String?
+  fulfillment   Json // {mode, scheduledAt?, address?, zip?}
+  itemsSnapshot Json
+  subtotalCents Int
+  discountCents Int       @default(0)
+  taxCents      Int
+  feeCents      Int       @default(0)
+  tipCents      Int       @default(0)
+  totalCents    Int
+  couponCode    String?
+  // gift-card tender applied at checkout — persisted so a refund can restore it
+  // (drift-safe defaults for fleet redeploys)
+  giftCardCode  String?
+  giftAppliedCents Int    @default(0)
+  paymentId     String?
+  staffId       String? // staff member who performed/rang the sale (POS) — powers staff reports
+  terminalId    String? // register/station that rang the sale (POS) — powers per-terminal Z-reports
+  notes         String?
+  quoteMeta     Json?
+  accessToken   String    @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([dateKey, seq])
+}
+
+// ── POS ─────────────────────────────────────────────────────
+
+// A register/station ("Front counter", "Bar"). Orders reference it by id;
+// deactivate instead of delete so historical Z-reports keep their names.
+model Terminal {
+  id        String   @id @default(cuid())
+  name      String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model PosShift {
+  id               String    @id @default(cuid())
+  openedAt         DateTime  @default(now())
+  closedAt         DateTime?
+  openingCashCents Int
+  closingCashCents Int?
+  totals           Json?
+}
+
+// ── payments ────────────────────────────────────────────────
+
+model Payment {
+  id          String   @id @default(cuid())
+  provider    String // STRIPE | MOCK
+  kind        String   @default("ONLINE")
+  externalId  String?  @unique // one payment record per intent — blocks replaying a paid intent into many orders
+  amountCents Int
+  tipCents    Int      @default(0)
+  // how much of amountCents has gone back. @default(0) is load-bearing: a
+  // required column with no default hard-fails `prisma db push` on every
+  // populated merchant database (scripts/schema-drift.mjs guards this).
+  refundedCents Int    @default(0)
+  status      String // PENDING SUCCEEDED PARTIALLY_REFUNDED FAILED REFUNDED FLAGGED
+  orderId     String?
+  meta        Json?
+  createdAt   DateTime @default(now())
+}
+
+// ── customers ───────────────────────────────────────────────
+
+model Customer {
+  id             String   @id @default(cuid())
+  email          String?  @unique
+  phone          String?  @unique
+  name           String?
+  notes          String?
+  marketingOptIn Boolean  @default(false)
+  loyaltyPoints  Int      @default(0)
+  createdAt      DateTime @default(now())
+}
+
+// ── promotions ──────────────────────────────────────────────
+
+model Coupon {
+  id               String    @id @default(cuid())
+  code             String    @unique
+  kind             String // PERCENT | FIXED
+  value            Int
+  minSubtotalCents Int?
+  description      String?
+  maxRedemptions   Int?
+  redeemed         Int       @default(0)
+  active           Boolean   @default(true)
+  endsAt           DateTime?
+  // the signup reward: new subscribers get this code in their welcome email
+  // (at most one active reward is honored; drift-safe default for fleet redeploys)
+  signupReward     Boolean   @default(false)
+}
+
+model GiftCard {
+  id             String   @id @default(cuid())
+  code           String   @unique
+  initialCents   Int
+  balanceCents   Int
+  active         Boolean  @default(true)
+  purchaserEmail String?
+  createdAt      DateTime @default(now())
+}

@@ -1,0 +1,12 @@
+# Auto-HTTPS reverse proxy for a VPS hosting one or more exported sites.
+# 1) point the domain's A record at the server
+# 2) copy to /etc/caddy/Caddyfile (adjust ports per site) and `systemctl reload caddy`
+
+goldenwok.example.com {
+	reverse_proxy localhost:3000
+}
+
+# second merchant on the same box:
+# bluebonnetsalon.example.com {
+# 	reverse_proxy localhost:3001
+# }

@@ -1,0 +1,245 @@
+{
+  "name": "Sunrise Bakery",
+  "slug": "sunrise-bakery",
+  "attribution": true,
+  "business": {
+    "name": "Sunrise Bakery",
+    "phone": "(555) 010-4477",
+    "email": "",
+    "address": {
+      "line1": "123 Main St",
+      "city": "Austin",
+      "state": "TX",
+      "zip": "78701"
+    },
+    "timezone": "America/Chicago",
+    "taxRateBp": 825,
+    "hours": {
+      "mon": null,
+      "tue": [
+        [
+          "07:00",
+          "14:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "14:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "14:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "15:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "13:00"
+        ]
+      ]
+    },
+    "socials": {}
+  },
+  "bilingual": false,
+  "secondaryLocale": null,
+  "motion": "lively",
+  "motionStyle": "zoom",
+  "enabledModules": [
+    "auth",
+    "settings",
+    "media",
+    "catalog",
+    "orders",
+    "payments",
+    "promotions",
+    "customers"
+  ],
+  "pages": [
+    {
+      "name": "Home",
+      "slug": "/"
+    },
+    {
+      "name": "Shop",
+      "slug": "/shop"
+    },
+    {
+      "name": "Custom Cakes",
+      "slug": "/custom-cakes"
+    },
+    {
+      "name": "Contact",
+      "slug": "/contact"
+    }
+  ],
+  "orderPath": "/shop",
+  "legalDocs": [
+    {
+      "slug": "privacy",
+      "title": "Privacy Policy",
+      "titleZh": "隱私政策",
+      "sections": [
+        {
+          "h": "What we collect",
+          "hZh": "我們收集什麼",
+          "body": [
+            "· Your name, email address, phone number and anything you type into a form on this site, so we can answer you and keep a record of the conversation.",
+            "· What you ordered, when, the delivery or pickup address, and any note you left for the kitchen or counter.",
+            "· Payment is processed by Stripe. Your card number never reaches this site or its database — we receive only the last four digits, the card brand, and whether the charge succeeded.",
+            "· Whether you subscribed to our email list, and which offers you have already used."
+          ],
+          "bodyZh": [
+            "· 你的姓名、電子郵件、電話，以及你在本站表單中填寫的任何內容——我們用來回覆你，並保留往來紀錄。",
+            "· 你訂購的品項與時間、外送或自取地址，以及你留給店家的備註。",
+            "· 付款由 Stripe 處理。你的卡號不會進入本站或本站的資料庫——我們只收到末四碼、卡別，以及這筆扣款成功與否。",
+            "· 你是否訂閱了我們的電子報，以及你已使用過哪些優惠。"
+          ]
+        },
+        {
+          "h": "What we do not do",
+          "hZh": "我們不做的事",
+          "body": [
+            "We do not sell your personal information. We disclose information only to the services needed to deliver this site and its enabled features, including the providers identified below and the database, payment or email providers named above where they apply.",
+            "We do not use submitted contact, booking or order details to advertise to you elsewhere."
+          ],
+          "bodyZh": [
+            "我們不出售你的個人資料。只有在傳送本站與已啟用功能所必需時，才會向服務商揭露資料；包括下文所列供應商，以及（在適用時）上述的資料庫、付款或郵件服務商。",
+            "我們不會用你送出的聯絡、預約或訂單資料在其他地方對你投放廣告。"
+          ]
+        },
+        {
+          "h": "Services your browser contacts",
+          "hZh": "你的瀏覽器會連線的服務",
+          "body": [
+            "· The web host receives ordinary request data needed to deliver each page, such as your IP address, browser or device information, the requested URL and request time. Host security and access logs may retain that data.",
+            "· Every page downloads its selected typefaces from Google Fonts. Your browser therefore contacts Google and sends ordinary request data such as your IP address, browser information and the font files requested.",
+            "· Pages with a map contact Google Maps. Google receives ordinary request data and the business-place query needed to render the map."
+          ],
+          "bodyZh": [
+            "· 主機商會收到傳送每個頁面所必需的一般請求資料，例如你的 IP 位址、瀏覽器或裝置資訊、請求網址與請求時間。主機的安全與存取紀錄可能會保留這些資料。",
+            "· 每個頁面都會從 Google Fonts 下載所選字型。因此你的瀏覽器會連線到 Google，並傳送 IP 位址、瀏覽器資訊與所請求字型檔等一般請求資料。",
+            "· 含有地圖的頁面會連線到 Google Maps。Google 會收到一般請求資料，以及顯示地圖所需的店家地點查詢。"
+          ]
+        },
+        {
+          "h": "How long we keep it",
+          "hZh": "我們保留多久",
+          "body": [
+            "We keep business records for as long as we need them to run the business and to meet tax and accounting obligations, and then we delete them. The web host and browser-delivered providers may separately retain security, access or measurement logs under their own retention settings and policies."
+          ],
+          "bodyZh": [
+            "我們保留業務紀錄的期間，以經營所需與稅務、會計法規要求為限，之後即予刪除。主機商與瀏覽器載入的服務商，可能另依其保留設定與政策保存安全、存取或衡量紀錄。"
+          ]
+        },
+        {
+          "h": "Your rights",
+          "hZh": "你的權利",
+          "body": [
+            "Write to ⟪TODO⟫ and ask what we hold about you, ask us to correct it, or ask us to delete it. We will answer.",
+            "If you are a California resident, the CCPA gives you these rights explicitly, including the right not to be treated differently for using them."
+          ],
+          "bodyZh": [
+            "寄信到 ⟪TODO⟫，你可以詢問我們持有你哪些資料、要求更正，或要求刪除。我們會回覆。",
+            "若你是加州居民，CCPA 明文賦予你上述權利，並保障你不因行使這些權利而受到差別待遇。"
+          ]
+        },
+        {
+          "h": "Who to contact",
+          "hZh": "聯絡窗口",
+          "body": [
+            "⟪TODO⟫, ⟪TODO⟫, (555) 010-4477."
+          ],
+          "bodyZh": [
+            "⟪TODO⟫，⟪TODO⟫，(555) 010-4477。"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "terms",
+      "title": "Terms of Service",
+      "titleZh": "使用條款",
+      "sections": [
+        {
+          "h": "Who you are dealing with",
+          "hZh": "交易對象",
+          "body": [
+            "This site is operated by ⟪TODO⟫. These terms are governed by the laws of TX."
+          ],
+          "bodyZh": [
+            "本站由 ⟪TODO⟫ 營運。本條款適用 TX 之法律。"
+          ]
+        },
+        {
+          "h": "Orders and payment",
+          "hZh": "訂單與付款",
+          "body": [
+            "Prices are shown before tax unless stated otherwise, and are the prices in effect when you place the order.",
+            "An order is accepted when we confirm it, not when it is submitted. If we cannot fulfil an order we will tell you and refund it in full.",
+            "Refunds return to the original payment method. Ask us at ⟪TODO⟫ — ⟪TODO⟫ describes when we can and cannot refund."
+          ],
+          "bodyZh": [
+            "除另有說明外，標示價格為未稅價，並以你下單當時的價格為準。",
+            "訂單於我們確認時成立，而非送出時。若無法履行，我們會告知並全額退款。",
+            "退款退回原付款方式。有問題請寄 ⟪TODO⟫——⟪TODO⟫ 說明可退與不可退的情形。"
+          ]
+        },
+        {
+          "h": "The content on this site",
+          "hZh": "本站內容",
+          "body": [
+            "Text, photographs and the design of this site belong to us. You are welcome to link to it; please do not republish it as your own.",
+            "We keep the site accurate but cannot promise it is free of error, and we are not liable for indirect losses arising from its use."
+          ],
+          "bodyZh": [
+            "本站的文字、照片與設計為我們所有。歡迎連結；請勿轉載為自己的內容。",
+            "我們盡力維持內容正確，但無法保證完全無誤，亦不對因使用本站而生的間接損失負責。"
+          ]
+        }
+      ]
+    }
+  ],
+  "fonts": {
+    "heading": "Cormorant Garamond",
+    "body": "Work Sans"
+  },
+  "fontsQuery": "family=Cormorant+Garamond:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700;800",
+  "chrome": "navbar",
+  "nav": {
+    "sectionLinks": [],
+    "logoSize": "md"
+  },
+  "masthead": null,
+  "brand": {
+    "primary": "#8a5a2b",
+    "primaryFg": "#ffffff",
+    "accent": "#d9909c",
+    "secondary": "#33261a"
+  },
+  "analytics": {
+    "ga4Id": null,
+    "metaPixelId": null,
+    "gtmId": null,
+    "customHeadHtml": null
+  },
+  "collections": [],
+  "seo": null,
+  "features": {
+    "listings": false
+  }
+}

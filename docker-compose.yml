@@ -1,0 +1,19 @@
+# One merchant site per compose project.
+#   docker compose up -d --build
+# Data (SQLite + uploads) persists in named volumes across upgrades.
+services:
+  site:
+    build: .
+    restart: unless-stopped
+    ports:
+      - '${SITE_PORT:-3000}:3000'
+    env_file: .env
+    environment:
+      DATABASE_URL: file:/app/data/site.db
+    volumes:
+      - site-data:/app/data
+      - site-uploads:/app/public/uploads
+
+volumes:
+  site-data:
+  site-uploads:
