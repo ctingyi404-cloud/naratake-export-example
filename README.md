@@ -82,5 +82,25 @@ from `.env` — change it after the first login.
 - Public write endpoints are rate-limited with honeypot fields.
 - Set a strong `JWT_SECRET` before deploying.
 
+## Free tools by Naratake
+
+The same team ships free, no-sign-up tools for local businesses. Everything runs in the browser; nothing you type is uploaded.
+
+- [All free tools](https://naratake.com/en/tools) — 35 tools for restaurants, salons and trades
+- [Google review link generator](https://naratake.com/en/tools/google-review-link-generator)
+- [Google review response templates](https://naratake.com/en/tools/google-review-response-templates)
+- [Google Business Profile checklist](https://naratake.com/en/tools/google-business-profile-checklist)
+- [Menu QR code generator](https://naratake.com/en/tools/menu-qr-code-generator)
+- [Restaurant menu maker](https://naratake.com/en/tools/restaurant-menu-maker)
+- [Menu engineering matrix calculator](https://naratake.com/en/tools/menu-engineering-calculator)
+- [Restaurant website checklist](https://naratake.com/en/tools/restaurant-website-checklist)
+- [Salon website checklist](https://naratake.com/en/tools/salon-website-checklist)
+- [Business hours sign maker](https://naratake.com/en/tools/business-hours-sign-maker)
+- [WiFi QR code generator](https://naratake.com/en/tools/wifi-qr-code-generator)
+- [Local business schema generator](https://naratake.com/en/tools/local-business-schema-generator)
+- [Website cost calculator](https://naratake.com/en/tools/website-cost-calculator)
+
+Guides: [how to get more Google reviews for a restaurant](https://naratake.com/en/learn/get-more-google-reviews-for-your-restaurant), [how to add online ordering to a restaurant website](https://naratake.com/en/learn/add-online-ordering-to-your-restaurant-website), [what a small business website costs](https://naratake.com/en/learn/what-a-small-business-website-costs).
+
 ---
 Generated 2026-09-01 · project `sunrise-bakery` · You own 100% of this code.
